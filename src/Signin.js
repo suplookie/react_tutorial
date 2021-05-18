@@ -1,4 +1,3 @@
-
 import './App.css';
 import React, {useState, useEffect} from 'react';
 import { db, firebaseApp, firebase} from './firebase'
@@ -8,7 +7,7 @@ import { db, firebaseApp, firebase} from './firebase'
 //3 render
 //useEffect
 
-function App() {  //always rerendered on change of state, App() called
+function Signin() {  //always rerendered on change of state, App() called
 
   useEffect(() => {
     //connectToFirebase();
@@ -16,44 +15,20 @@ function App() {  //always rerendered on change of state, App() called
     firebase.auth().onAuthStateChanged((user) => {
       const uid = (firebaseApp.auth().currentUser || {}).uid
       if (uid) {
-        setUid(uid)
+        setUid(uid);
+        window.location="/portal";
       } 
     })
   }, []);
   //can be called depending on data in bracket. 
 
 
-  //console.log("app");
-  const [cnt, setCnt] = useState(0); 
-  const [text, setText] = useState("dfdf");
-  //cnt: what going to render, setCnt: setter
 
   const [email, setEmail] = useState("");
   const [pw, setPw] = useState("");
   const [err, setErr] = useState("");
   const [uid, setUid] = useState(null);
 
-  useEffect(() => {
-    //will be fired when cnt changes
-    console.log("use effect -- cnt")
-    console.log(cnt);
-  }, [cnt]);
-
-  const onClick = () => {
-    //setCnt(cnt + 1); 
-    setCnt(prev => prev + 1);
-  }
-  const downClick = () => {
-    setCnt(cnt - 1); 
-  }
-  const readTxtareaValue = () => {
-    alert(text)
-
-  }
-  const onTextareaCahnge = (evt) => {
-    console.log(evt.target.value)
-    setText(evt.target.value)
-  }
   const onEmailChange = (evt) => {
     setEmail(evt.target.value)
   }
@@ -91,18 +66,6 @@ function App() {  //always rerendered on change of state, App() called
       setErr(errorMessage);
     });
   }
-  const signOut = () => {
-    firebaseApp.auth().signOut().then(() => {
-      console.log("firebase logout");
-      setUid(null);
-    })
-    .catch((error) => {
-      var errorCode = error.code;
-      var errorMessage = error.message;
-      console.log(errorCode);
-      console.log(errorMessage);
-    });
-  }
 
   return (
     <div className="App">
@@ -125,17 +88,8 @@ function App() {  //always rerendered on change of state, App() called
           <hr/>
         </>
       }
-      <div onClick={signOut}>Sign Out</div>
-      {cnt}
-      <div onClick={onClick}>button</div>
-      <div onClick={downClick}>-button</div>
-      <div onClick={readTxtareaValue}>readTextareaValue</div>
-      <hr/>
-      <textarea 
-      onChange={onTextareaCahnge}
-      style={{height:200,width:200}} value={text}></textarea>
     </div>
   );
 }
 
-export default App;
+export default Signin;
