@@ -106,7 +106,7 @@ function App() {  //always rerendered on change of state, App() called
 
   return (
     <div className="App">
-      <div>HELLO</div>
+      <div>HELLO HI</div>
       {err}
       {
         uid ? 
